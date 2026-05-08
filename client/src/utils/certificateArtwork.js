@@ -29,10 +29,16 @@ export const instituteSealSvg = `
 </svg>`;
 
 export const instituteSignatureSvg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="110" viewBox="0 0 320 110" fill="none">
-  <path d="M22 72C39 64 47 34 57 34C64 34 63 53 70 53C77 53 79 30 92 30C104 30 96 74 109 74C118 74 124 47 134 47C143 47 143 68 151 68C162 68 169 28 182 28C195 28 185 74 200 74C210 74 213 49 225 49C237 49 239 72 252 72C264 72 272 54 294 38" stroke="#0F172A" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M22 88H298" stroke="#94A3B8" stroke-width="2"/>
-  <text x="28" y="104" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#475569">Authorized Signature</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="120" viewBox="0 0 380 120" fill="none">
+  <g stroke="#3D3540" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M35 74C8 68 11 32 48 20C87 8 139 18 145 43C151 68 106 75 72 74" stroke-width="5"/>
+    <path d="M72 73V34C72 31 76 31 77 34C79 45 81 61 82 73" stroke-width="5"/>
+    <path d="M106 72V33" stroke-width="5"/>
+    <path d="M107 55C122 45 127 35 137 31" stroke-width="5"/>
+    <path d="M158 72C166 59 173 50 184 53C193 55 190 70 198 70C208 70 211 55 222 56C234 57 229 72 240 72C250 72 256 63 266 63C277 63 284 69 297 70" stroke-width="5"/>
+    <path d="M34 76C110 75 199 75 335 76" stroke-width="4"/>
+    <path d="M328 72L348 77L329 81" stroke-width="3"/>
+  </g>
 </svg>`;
 
 export const svgToDataUri = (svg) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;

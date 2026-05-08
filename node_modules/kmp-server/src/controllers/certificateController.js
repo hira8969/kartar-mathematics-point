@@ -87,15 +87,37 @@ const serializeCertificate = async (certificateDoc) => {
 
 const drawSignature = (doc, x, y) => {
   doc.save();
-  doc.lineWidth(3);
-  doc.strokeColor("#0f172a");
-  doc.moveTo(x, y + 18)
-    .bezierCurveTo(x + 12, y + 2, x + 22, y - 10, x + 32, y + 5)
-    .bezierCurveTo(x + 38, y + 14, x + 48, y + 6, x + 54, y - 2)
-    .bezierCurveTo(x + 62, y - 14, x + 74, y + 2, x + 82, y + 10)
-    .bezierCurveTo(x + 94, y + 20, x + 108, y - 2, x + 120, y + 4)
-    .bezierCurveTo(x + 132, y + 10, x + 144, y + 22, x + 166, y + 2)
+  doc.lineWidth(2.6);
+  doc.lineCap("round");
+  doc.lineJoin("round");
+  doc.strokeColor("#3d3540");
+
+  doc.moveTo(x + 2, y + 32)
+    .bezierCurveTo(x - 18, y + 26, x - 15, y + 2, x + 16, y - 6)
+    .bezierCurveTo(x + 52, y - 15, x + 93, y - 4, x + 98, y + 15)
+    .bezierCurveTo(x + 104, y + 36, x + 64, y + 34, x + 34, y + 32)
     .stroke();
+
+  doc.moveTo(x + 34, y + 31).lineTo(x + 34, y + 5).stroke();
+  doc.moveTo(x + 58, y + 31).lineTo(x + 58, y + 5).stroke();
+  doc.moveTo(x + 59, y + 20)
+    .bezierCurveTo(x + 70, y + 12, x + 75, y + 6, x + 82, y + 3)
+    .stroke();
+
+  doc.moveTo(x + 102, y + 31)
+    .bezierCurveTo(x + 110, y + 20, x + 118, y + 18, x + 126, y + 22)
+    .bezierCurveTo(x + 133, y + 26, x + 128, y + 33, x + 137, y + 32)
+    .bezierCurveTo(x + 146, y + 31, x + 148, y + 22, x + 158, y + 22)
+    .bezierCurveTo(x + 169, y + 22, x + 165, y + 33, x + 176, y + 33)
+    .bezierCurveTo(x + 187, y + 33, x + 194, y + 26, x + 205, y + 27)
+    .bezierCurveTo(x + 213, y + 28, x + 219, y + 32, x + 228, y + 32)
+    .stroke();
+
+  doc.lineWidth(2.2);
+  doc.moveTo(x + 2, y + 34)
+    .bezierCurveTo(x + 58, y + 33, x + 130, y + 33, x + 254, y + 34)
+    .stroke();
+  doc.moveTo(x + 248, y + 31).lineTo(x + 265, y + 35).lineTo(x + 249, y + 38).stroke();
   doc.restore();
 };
 
