@@ -13,7 +13,7 @@ export const protect = async (req, res, next) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(payload.userId).select("-password");
 
-    if (!user || user.isSuspended) {
+    if (!user || user.isSuspended || !user.isApproved) {
       return res.status(401).json({ message: "User not allowed" });
     }
 

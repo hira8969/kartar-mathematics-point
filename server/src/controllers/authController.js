@@ -19,6 +19,10 @@ export const login = async (req, res) => {
     return res.status(403).json({ message: "Account suspended" });
   }
 
+  if (!user.isApproved) {
+    return res.status(403).json({ message: "Account approval pending. Please contact admin." });
+  }
+
   res.json({
     token: signToken(user),
     user: {

@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
     subjectsTaught: { type: [String], default: [] },
     instituteAddress: { type: String, default: INSTITUTE_DETAILS.address },
     instituteContact: { type: String, default: INSTITUTE_DETAILS.contact },
-    isApproved: { type: Boolean, default: true },
+    isApproved: { type: Boolean, default: false },
     isSuspended: { type: Boolean, default: false }
   },
   { timestamps: true }

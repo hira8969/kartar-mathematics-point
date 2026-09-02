@@ -7,6 +7,14 @@ export const ensureSuperAdmin = async () => {
 
   const existingAdmin = await User.findOne({ email: adminEmail });
   if (existingAdmin) {
+    existingAdmin.name = existingAdmin.name || "Super Admin";
+    existingAdmin.role = ROLES.ADMIN;
+    existingAdmin.isApproved = true;
+    existingAdmin.isSuspended = false;
+    if (!(await existingAdmin.comparePassword(adminPassword))) {
+      existingAdmin.password = adminPassword;
+    }
+    await existingAdmin.save();
     return existingAdmin;
   }
 
