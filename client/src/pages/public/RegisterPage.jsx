@@ -1,56 +1,60 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useNotifications } from "../../context/NotificationContext";
-import { dashboardPathByRole } from "../../utils/roleConfig";
+import { INSTITUTE } from "../../utils/constants";
+
+const initialForm = {
+  name: "",
+  email: "",
+  phone: "",
+  role: "student",
+  studentClass: "10",
+  subjectsTaught: ""
+};
 
 export default function RegisterPage() {
-  const { register } = useAuth();
   const { push } = useNotifications();
-  const navigate = useNavigate();
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    role: "student",
-    studentClass: "10",
-    subjectsTaught: "Mathematics"
-  });
-  const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [form, setForm] = useState(initialForm);
 
-  const onSubmit = async (event) => {
+  const requestBody = useMemo(() => {
+    const lines = [
+      "New portal access request:",
+      "",
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `Phone: ${form.phone || "Not provided"}`,
+      `Role: ${form.role}`,
+      form.role === "student" ? `Class: ${form.studentClass}` : `Subjects: ${form.subjectsTaught || "Not provided"}`
+    ];
+
+    return lines.join("\n");
+  }, [form]);
+
+  const onSubmit = (event) => {
     event.preventDefault();
-    setSubmitting(true);
-    setError("");
-    try {
-      const payload = {
-        ...form,
-        subjectsTaught: form.role === "faculty"
-          ? form.subjectsTaught.split(",").map((item) => item.trim()).filter(Boolean)
-          : []
-      };
-      const user = await register(payload);
-      push("Registration successful", "success");
-      navigate(dashboardPathByRole[user.role]);
-    } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
-      push("Unable to register", "error");
-    } finally {
-      setSubmitting(false);
+
+    if (!form.name.trim() || !form.email.trim()) {
+      push("Name and email are required", "error");
+      return;
     }
+
+    const subject = encodeURIComponent(`${INSTITUTE.name} portal access request`);
+    const body = encodeURIComponent(requestBody);
+    window.location.href = `mailto:${INSTITUTE.ownerEmail}?subject=${subject}&body=${body}`;
+    push("Registration request prepared for admin", "success");
   };
 
   return (
     <div className="bg-app flex min-h-screen items-center justify-center px-4 py-10">
       <form onSubmit={onSubmit} className="card w-full max-w-2xl p-8">
-        <h1 className="font-display text-3xl font-bold text-ink">Register as Student or Faculty</h1>
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-saffron">{INSTITUTE.tagline}</p>
+        <h1 className="mt-3 font-display text-3xl font-bold text-ink">Request portal access</h1>
+        <p className="mt-2 text-sm text-slate-500">Admin will create your account and share the login password.</p>
+
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <input className="input" placeholder="Full name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-          <input className="input" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-          <input className="input" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-          <input className="input" type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+          <input className="input" type="email" placeholder="Email address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          <input className="input" placeholder="Phone optional" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
           <select className="input" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
             <option value="student">Student</option>
             <option value="faculty">Faculty</option>
@@ -62,11 +66,11 @@ export default function RegisterPage() {
               ))}
             </select>
           ) : (
-            <input className="input" placeholder="Subjects taught, comma separated" value={form.subjectsTaught} onChange={(e) => setForm({ ...form, subjectsTaught: e.target.value })} />
+            <input className="input md:col-span-2" placeholder="Subjects taught" value={form.subjectsTaught} onChange={(e) => setForm({ ...form, subjectsTaught: e.target.value })} />
           )}
         </div>
-        {error ? <p className="mt-4 text-sm font-semibold text-red-600">{error}</p> : null}
-        <button disabled={submitting} className="btn-secondary mt-6 w-full">{submitting ? "Creating account..." : "Register"}</button>
+
+        <button className="btn-primary mt-6 w-full">Send Request</button>
         <p className="mt-4 text-sm text-slate-600">Already have an account? <Link className="font-semibold text-saffron" to="/login">Login</Link></p>
       </form>
     </div>

@@ -36,13 +36,6 @@ export function AuthProvider({ children }) {
     return data.user;
   };
 
-  const register = async (payload) => {
-    const data = await authService.register(payload);
-    storage.setToken(data.token);
-    setUser(data.user);
-    return data.user;
-  };
-
   const logout = () => {
     storage.clearToken();
     setUser(null);
@@ -60,7 +53,6 @@ export function AuthProvider({ children }) {
       loading,
       isAuthenticated: Boolean(user),
       login,
-      register,
       logout,
       refreshUser,
       getHomePath: () => (user ? dashboardPathByRole[user.role] : "/login")

@@ -5,8 +5,8 @@ import { ROLES, INSTITUTE_DETAILS } from "../constants.js";
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    email: { type: String, trim: true, lowercase: true, unique: true, sparse: true },
-    phone: { type: String, required: true, unique: true },
+    email: { type: String, required: true, trim: true, lowercase: true, unique: true },
+    phone: { type: String, trim: true, unique: true, sparse: true },
     password: { type: String, required: true },
     role: { type: String, enum: Object.values(ROLES), default: ROLES.STUDENT },
     studentClass: { type: String, default: "" },

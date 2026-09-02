@@ -32,7 +32,8 @@ export default function LandingPage() {
             Built for Bihar Board mathematics coaching with clear role-based access for students, faculty, and admin teams.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link to="/register" className="btn-primary">Get Started</Link>
+            <Link to="/login" className="btn-primary">Login to Portal</Link>
+            <Link to="/register" className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">Register</Link>
             <Link to="/contact" className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">Contact Us</Link>
             <Link to="/verify-certificate/KMP-CERT-DEMO" className="rounded-2xl border border-emerald-300 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-700">Verify a Certificate</Link>
           </div>

@@ -129,8 +129,8 @@ export default function AdminUsersPage() {
   const clearSelection = () => setSelectedIds([]);
 
   const createUser = async () => {
-    if (!form.name.trim() || !form.phone.trim() || !form.password.trim()) {
-      push("Name, phone, and password are required", "error");
+    if (!form.name.trim() || !form.email.trim() || !form.password.trim()) {
+      push("Name, email, and password are required", "error");
       return;
     }
 
@@ -173,8 +173,8 @@ export default function AdminUsersPage() {
   };
 
   const saveUserEdits = async () => {
-    if (!editingUser.name.trim() || !editingUser.phone.trim()) {
-      push("Name and phone are required", "error");
+    if (!editingUser.name.trim() || !editingUser.email.trim()) {
+      push("Name and email are required", "error");
       return;
     }
 
@@ -300,7 +300,7 @@ export default function AdminUsersPage() {
   return (
     <>
       <div className="space-y-6">
-        <PageHeader eyebrow="User Management" title="Manage students, faculty, and admin accounts" description="Create accounts, track the latest saved user, then search, sort, edit, export, bulk approve, or bulk delete from one place." />
+        <PageHeader eyebrow="User Management" title="Manage students, faculty, and admin accounts" description="Only admin can create accounts. Students and faculty sign in with the email and password you assign here." />
         <SectionCard title="Create User Account">
           <div className="grid gap-3 md:grid-cols-2">
             <FormField label="Role">
@@ -311,7 +311,7 @@ export default function AdminUsersPage() {
               </select>
             </FormField>
             <FormField label="Name"><input className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></FormField>
-            <FormField label="Email"><input className="input" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></FormField>
+            <FormField label="Email"><input className="input" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></FormField>
             <FormField label="Phone"><input className="input" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></FormField>
             <FormField label="Password"><input className="input" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} /></FormField>
             {form.role === "student" ? (
@@ -342,7 +342,7 @@ export default function AdminUsersPage() {
                 <div><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Name</p><p className="font-semibold text-ink">{createdUser.name}</p></div>
                 <div><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Role</p><p className="font-semibold capitalize text-ink">{createdUser.role}</p></div>
                 <div><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p><p className="font-semibold text-ink">{createdUser.email || "Not provided"}</p></div>
-                <div><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p><p className="font-semibold text-ink">{createdUser.phone}</p></div>
+                <div><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p><p className="font-semibold text-ink">{createdUser.phone || "Not provided"}</p></div>
                 <div><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Class</p><p className="font-semibold text-ink">{createdUser.studentClass || "-"}</p></div>
                 <div><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Subjects</p><p className="font-semibold text-ink">{createdUser.subjectsTaught?.length ? createdUser.subjectsTaught.join(", ") : "-"}</p></div>
               </div>
@@ -412,7 +412,7 @@ export default function AdminUsersPage() {
         <div className="grid gap-3 md:grid-cols-2">
           <FormField label="Role"><select className="input" value={editingUser.role} onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value })}><option value="student">Student</option><option value="faculty">Faculty</option><option value="admin">Admin</option></select></FormField>
           <FormField label="Name"><input className="input" value={editingUser.name} onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })} /></FormField>
-          <FormField label="Email"><input className="input" value={editingUser.email} onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })} /></FormField>
+          <FormField label="Email"><input className="input" type="email" value={editingUser.email} onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })} /></FormField>
           <FormField label="Phone"><input className="input" value={editingUser.phone} onChange={(e) => setEditingUser({ ...editingUser, phone: e.target.value })} /></FormField>
           {editingUser.role === "student" ? <FormField label="Class"><select className="input" value={editingUser.studentClass} onChange={(e) => setEditingUser({ ...editingUser, studentClass: e.target.value })}>{Array.from({ length: 7 }, (_, index) => index + 6).map((value) => <option key={value} value={String(value)}>Class {value}</option>)}</select></FormField> : null}
           {editingUser.role === "faculty" ? <div className="md:col-span-2"><FormField label="Subjects Taught"><input className="input" value={editingUser.subjectsTaught} onChange={(e) => setEditingUser({ ...editingUser, subjectsTaught: e.target.value })} /></FormField></div> : null}

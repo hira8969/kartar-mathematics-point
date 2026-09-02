@@ -26,6 +26,11 @@ const normalizeEmail = (email) => {
   return value ? value.toLowerCase() : undefined;
 };
 
+const normalizePhone = (phone) => {
+  const value = phone?.trim();
+  return value || undefined;
+};
+
 export const getAdminOverview = async (_req, res) => {
   const [students, faculty, courses, exams, assignments, submissions, attendance] = await Promise.all([
     User.countDocuments({ role: "student" }),
@@ -51,23 +56,21 @@ export const createUser = async (req, res) => {
   const role = req.body.role || ROLES.STUDENT;
   const name = req.body.name?.trim();
   const email = normalizeEmail(req.body.email);
-  const phone = req.body.phone?.trim();
+  const phone = normalizePhone(req.body.phone);
   const password = req.body.password;
   const studentClass = role === ROLES.STUDENT ? req.body.studentClass?.trim() || "" : "";
   const subjectsTaught = role === ROLES.FACULTY ? normalizeSubjects(req.body.subjectsTaught) : [];
 
-  if (!name || !phone || !password) {
-    return res.status(400).json({ message: "Name, phone, and password are required" });
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: "Name, email, and password are required" });
   }
 
   if (![ROLES.STUDENT, ROLES.FACULTY, ROLES.ADMIN].includes(role)) {
     return res.status(400).json({ message: "Invalid user role" });
   }
 
-  const filters = [{ phone }];
-  if (email) {
-    filters.push({ email });
-  }
+  const filters = [{ email }];
+  if (phone) filters.push({ phone });
 
   const existingUser = await User.findOne({ $or: filters });
   if (existingUser) {
@@ -110,7 +113,7 @@ export const updateUserStatus = async (req, res) => {
 
   const name = req.body.name !== undefined ? req.body.name?.trim() : existingUser.name;
   const email = req.body.email !== undefined ? normalizeEmail(req.body.email) : existingUser.email;
-  const phone = req.body.phone !== undefined ? req.body.phone?.trim() : existingUser.phone;
+  const phone = req.body.phone !== undefined ? normalizePhone(req.body.phone) : existingUser.phone;
   const studentClass = role === ROLES.STUDENT
     ? (req.body.studentClass !== undefined ? req.body.studentClass?.trim() || "" : existingUser.studentClass)
     : "";
@@ -118,14 +121,12 @@ export const updateUserStatus = async (req, res) => {
     ? (req.body.subjectsTaught !== undefined ? normalizeSubjects(req.body.subjectsTaught) : existingUser.subjectsTaught)
     : [];
 
-  if (!name || !phone) {
-    return res.status(400).json({ message: "Name and phone are required" });
+  if (!name || !email) {
+    return res.status(400).json({ message: "Name and email are required" });
   }
 
-  const duplicateFilters = [{ phone }];
-  if (email) {
-    duplicateFilters.push({ email });
-  }
+  const duplicateFilters = [{ email }];
+  if (phone) duplicateFilters.push({ phone });
 
   const duplicateUser = await User.findOne({
     _id: { $ne: req.params.id },
