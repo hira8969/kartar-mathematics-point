@@ -23,8 +23,9 @@ export default function LoginPage() {
       push("Login successful", "success");
       navigate(location.state?.from?.pathname || dashboardPathByRole[user.role]);
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
-      push("Unable to login", "error");
+      const message = err.response?.data?.message || (err.request ? "Unable to reach backend API" : "Login failed");
+      setError(message);
+      push(message, "error");
     } finally {
       setSubmitting(false);
     }
