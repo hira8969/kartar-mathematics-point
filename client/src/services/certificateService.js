@@ -1,6 +1,7 @@
 import http from "./http";
+import { getApiBaseUrl } from "./apiBase";
 
-const apiBase = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(/\/$/, "");
+const apiBase = getApiBaseUrl();
 
 export const certificateService = {
   getEligible: () => http.get("/certificates/eligible").then((response) => response.data),

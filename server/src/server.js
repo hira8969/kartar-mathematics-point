@@ -28,7 +28,22 @@ const port = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+const normalizeOrigin = (origin = "") => origin.trim().replace(/\/+$/, "");
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map(normalizeOrigin)
+  .filter(Boolean);
+
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(normalizeOrigin(origin))) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true
+}));
 app.use(express.json({ limit: "12mb" }));
 app.use(express.urlencoded({ extended: true, limit: "12mb" }));
 app.use(cookieParser());
@@ -38,7 +53,7 @@ app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.get("/", (_req, res) => {
   res.status(200).json({
     message: "Kartar Mathematics Point backend is running.",
-    frontend: process.env.CLIENT_URL || "http://localhost:5173",
+    frontend: allowedOrigins[0] || "http://localhost:5173",
     health: "/api/health",
     loginApi: "/api/auth/login",
     note: "Open the React app in the frontend URL for /login and other pages."
@@ -46,7 +61,7 @@ app.get("/", (_req, res) => {
 });
 
 app.get("/login", (_req, res) => {
-  const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+  const clientUrl = allowedOrigins[0] || "http://localhost:5173";
   res.redirect(clientUrl + "/login");
 });
 

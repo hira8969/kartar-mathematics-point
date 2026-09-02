@@ -2,8 +2,12 @@ import { User } from "../models/User.js";
 import { signToken } from "../utils/jwt.js";
 
 export const login = async (req, res) => {
-  const identifier = req.body.identifier?.trim().toLowerCase();
+  const identifier = (req.body.identifier || req.body.email)?.trim().toLowerCase();
   const password = req.body.password;
+
+  if (!identifier || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
 
   const user = await User.findOne({ email: identifier });
 
