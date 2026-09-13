@@ -5,6 +5,7 @@ import EmptyState from "../../components/EmptyState";
 import LoadingState from "../../components/LoadingState";
 import PageHeader from "../../components/PageHeader";
 import SectionCard from "../../components/SectionCard";
+import Seo from "../../components/Seo";
 import { certificateService } from "../../services/certificateService";
 import { downloadBlobFile, downloadCertificateSvg } from "../../utils/certificateDownload";
 import { formatDate } from "../../utils/formatters";
@@ -54,6 +55,12 @@ export default function CertificateVerifyPage() {
 
   return (
     <div className="bg-app min-h-screen px-4 py-10">
+      <Seo
+        title="Certificate Verification | Kartar Mathematics Point"
+        description="Verify a Kartar Mathematics Point certificate using its public certificate number."
+        path={`/verify/${certificateNumber || ""}`}
+        noindex
+      />
       <div className="mx-auto max-w-6xl space-y-6">
         <PageHeader eyebrow="Certificate Verification" title={certificate ? "Verified Certificate" : "Verification Failed"} description={certificate ? statusText[certificate.status] || statusText.valid : "We could not find a certificate matching this verification code."} />
         {certificate ? (

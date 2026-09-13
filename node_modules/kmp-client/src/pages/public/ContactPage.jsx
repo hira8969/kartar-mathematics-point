@@ -1,8 +1,14 @@
+import Seo from "../../components/Seo";
 import { INSTITUTE } from "../../utils/constants";
 
 export default function ContactPage() {
   return (
     <div className="bg-app min-h-screen px-4 py-16 md:px-6">
+      <Seo
+        title="Contact Kartar Mathematics Point"
+        description="Contact Kartar Mathematics Point for admission and Bihar Board mathematics coaching details for Classes 6 to 12."
+        path="/contact"
+      />
       <div className="mx-auto max-w-5xl card p-8 md:p-10">
         <p className="text-xs font-bold uppercase tracking-[0.25em] text-saffron">Contact & Admission</p>
         <h1 className="mt-3 font-display text-4xl font-extrabold text-ink">{INSTITUTE.name}</h1>

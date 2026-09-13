@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Seo from "../../components/Seo";
 import { INSTITUTE } from "../../utils/constants";
 
 const highlights = [
@@ -8,8 +9,25 @@ const highlights = [
 ];
 
 export default function LandingPage() {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    name: INSTITUTE.name,
+    url: "https://kartarmathematics.in",
+    email: INSTITUTE.ownerEmail,
+    telephone: INSTITUTE.contact,
+    address: INSTITUTE.address,
+    description: `${INSTITUTE.name} provides ${INSTITUTE.specialization}.`
+  };
+
   return (
     <div className="bg-app text-ink">
+      <Seo
+        title="Kartar Mathematics Point | Bihar Board Mathematics Classes"
+        description="Kartar Mathematics Point provides Bihar Board mathematics coaching for Classes 6 to 12 with courses, assignments, exams, attendance, and study resources."
+        path="/"
+        jsonLd={organizationJsonLd}
+      />
       <header className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 md:px-6">
         <div>
           <p className="font-display text-2xl font-extrabold">{INSTITUTE.name}</p>

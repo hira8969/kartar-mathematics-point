@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNotifications } from "../../context/NotificationContext";
 import { dashboardPathByRole } from "../../utils/roleConfig";
 import { INSTITUTE } from "../../utils/constants";
+import Seo from "../../components/Seo";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -33,6 +34,12 @@ export default function LoginPage() {
 
   return (
     <div className="bg-app flex min-h-screen items-center justify-center px-4 py-10">
+      <Seo
+        title="Login | Kartar Mathematics Point"
+        description="Login to the Kartar Mathematics Point student, faculty, or admin portal."
+        path="/login"
+        noindex
+      />
       <form onSubmit={onSubmit} className="card w-full max-w-md p-8">
         <p className="text-xs font-bold uppercase tracking-[0.25em] text-saffron">{INSTITUTE.tagline}</p>
         <h1 className="mt-3 font-display text-3xl font-bold text-ink">Login to your portal</h1>

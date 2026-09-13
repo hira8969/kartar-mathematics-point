@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNotifications } from "../../context/NotificationContext";
 import { INSTITUTE } from "../../utils/constants";
+import Seo from "../../components/Seo";
 
 const initialForm = {
   name: "",
@@ -46,6 +47,12 @@ export default function RegisterPage() {
 
   return (
     <div className="bg-app flex min-h-screen items-center justify-center px-4 py-10">
+      <Seo
+        title="Request Access | Kartar Mathematics Point"
+        description="Request student or faculty portal access for Kartar Mathematics Point."
+        path="/register"
+        noindex
+      />
       <form onSubmit={onSubmit} className="card w-full max-w-2xl p-8">
         <p className="text-xs font-bold uppercase tracking-[0.25em] text-saffron">{INSTITUTE.tagline}</p>
         <h1 className="mt-3 font-display text-3xl font-bold text-ink">Request portal access</h1>

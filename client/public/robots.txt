@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /student
+Disallow: /student/
+Disallow: /faculty
+Disallow: /faculty/
+Disallow: /login
+Disallow: /register
+Disallow: /verify
+Disallow: /verify/
+Disallow: /verify-certificate
+Disallow: /verify-certificate/
+
+Sitemap: https://kartarmathematics.in/sitemap.xml
