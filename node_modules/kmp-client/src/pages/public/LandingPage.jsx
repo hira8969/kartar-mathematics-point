@@ -16,7 +16,7 @@ export default function LandingPage() {
           <p className="text-sm text-slate-600">{INSTITUTE.address}</p>
         </div>
         <div className="flex gap-3">
-          <Link to="/verify-certificate/KMP-CERT-DEMO" className="rounded-2xl border border-emerald-300 px-5 py-3 text-sm font-semibold text-emerald-700">Verify Certificate</Link>
+          <Link to="/verify/KMP-CERT-DEMO" className="rounded-2xl border border-emerald-300 px-5 py-3 text-sm font-semibold text-emerald-700">Verify Certificate</Link>
           <Link to="/login" className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">Login</Link>
           <Link to="/register" className="btn-secondary">Register</Link>
         </div>
@@ -35,7 +35,7 @@ export default function LandingPage() {
             <Link to="/login" className="btn-primary">Login to Portal</Link>
             <Link to="/register" className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">Register</Link>
             <Link to="/contact" className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">Contact Us</Link>
-            <Link to="/verify-certificate/KMP-CERT-DEMO" className="rounded-2xl border border-emerald-300 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-700">Verify a Certificate</Link>
+            <Link to="/verify/KMP-CERT-DEMO" className="rounded-2xl border border-emerald-300 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-700">Verify a Certificate</Link>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {highlights.map((item) => (

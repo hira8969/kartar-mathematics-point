@@ -38,8 +38,6 @@ export default function CertificateVerifyPage() {
   const details = certificate ? [
     { label: "Student Name", value: certificate.student?.name || "-" },
     { label: "Student Class", value: certificate.course?.className || certificate.student?.studentClass || "-" },
-    { label: "Phone", value: certificate.student?.phone || "-" },
-    { label: "Email", value: certificate.student?.email || "-" },
     { label: "Coaching", value: certificate.instituteName || "-" },
     { label: "Coaching Contact", value: certificate.instituteContact || "-" },
     { label: "Coaching Address", value: certificate.instituteAddress || "-" },

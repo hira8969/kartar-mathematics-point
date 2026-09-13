@@ -9,6 +9,7 @@ import { getInstituteBranding } from "../utils/instituteSettings.js";
 const A4_WIDTH = 842;
 const A4_HEIGHT = 595;
 const AUTHORIZED_BY_NAME = "Subodh Kumar Yadav";
+const PRODUCTION_CLIENT_URL = "https://kartar-mathematics-point-client-7mv.vercel.app";
 
 const buildCertificateNumber = () => {
   const stamp = Date.now().toString().slice(-8);
@@ -26,8 +27,8 @@ const certificatePopulate = [
 ];
 
 const getVerificationUrl = (certificateNumber) => {
-  const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
-  return `${clientUrl}/verify-certificate/${encodeURIComponent(certificateNumber)}`;
+  const clientUrl = process.env.CLIENT_URL || PRODUCTION_CLIENT_URL;
+  return `${clientUrl.replace(/\/+$/, "")}/verify/${encodeURIComponent(certificateNumber)}`;
 };
 
 const buildVerificationMeta = async (certificateNumber) => {
@@ -298,7 +299,36 @@ export const getIssuedCertificates = async (_req, res) => {
 export const verifyCertificate = async (req, res) => {
   const certificate = await Certificate.findOne({ certificateNumber: req.params.certificateNumber }).populate(certificatePopulate);
   if (!certificate) return res.status(404).json({ message: "Certificate not found" });
-  res.json(await serializeCertificate(certificate));
+  const serialized = await serializeCertificate(certificate);
+
+  res.json({
+    _id: serialized._id,
+    certificateNumber: serialized.certificateNumber,
+    attendancePercent: serialized.attendancePercent,
+    issuedAt: serialized.issuedAt,
+    expiresAt: serialized.expiresAt,
+    updatedAt: serialized.updatedAt,
+    status: serialized.status,
+    revocationReason: serialized.status === "revoked" ? serialized.revocationReason : "",
+    verificationUrl: serialized.verificationUrl,
+    qrCodeDataUrl: serialized.qrCodeDataUrl,
+    instituteName: serialized.instituteName,
+    instituteAddress: serialized.instituteAddress,
+    instituteContact: serialized.instituteContact,
+    instituteLogoDataUrl: serialized.instituteLogoDataUrl,
+    instituteSignatureDataUrl: serialized.instituteSignatureDataUrl,
+    student: {
+      name: serialized.student?.name,
+      studentClass: serialized.student?.studentClass
+    },
+    course: {
+      title: serialized.course?.title,
+      subject: serialized.course?.subject,
+      board: serialized.course?.board,
+      className: serialized.course?.className,
+      batchName: serialized.course?.batchName
+    }
+  });
 };
 
 export const downloadPublicCertificatePdf = async (req, res) => {

@@ -42,6 +42,7 @@ export default function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify/:certificateNumber" element={<CertificateVerifyPage />} />
         <Route path="/verify-certificate/:certificateNumber" element={<CertificateVerifyPage />} />
 
         <Route element={<ProtectedRoute roles={["student", "faculty", "admin"]} />}>
