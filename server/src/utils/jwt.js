@@ -1,5 +1,13 @@
 import jwt from "jsonwebtoken";
 
+const getJwtSecret = () => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not configured");
+  }
+
+  return process.env.JWT_SECRET;
+};
+
 export const signToken = (user) =>
   jwt.sign(
     {
@@ -7,6 +15,8 @@ export const signToken = (user) =>
       role: user.role,
       name: user.name
     },
-    process.env.JWT_SECRET,
+    getJwtSecret(),
     { expiresIn: "7d" }
   );
+
+export { getJwtSecret };

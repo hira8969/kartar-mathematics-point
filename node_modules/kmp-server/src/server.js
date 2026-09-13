@@ -30,12 +30,12 @@ const __dirname = path.dirname(__filename);
 
 const normalizeOrigin = (origin = "") => origin.trim().replace(/\/+$/, "");
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
   ...(process.env.CLIENT_URL || "")
   .split(",")
   .map(normalizeOrigin)
-  .filter(Boolean)
+  .filter(Boolean),
+  "http://localhost:5173",
+  "http://127.0.0.1:5173"
 ];
 const allowedVercelPreviewPattern = /^https:\/\/kartar-mathematics-point-client-[a-z0-9-]+\.vercel\.app$/i;
 
@@ -77,7 +77,11 @@ app.get("/login", (_req, res) => {
 });
 
 app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", institute: INSTITUTE_DETAILS });
+  res.json({
+    success: true,
+    message: "Kartar Mathematics Point API is running",
+    institute: INSTITUTE_DETAILS.name
+  });
 });
 
 app.use("/api/auth", authRoutes);
