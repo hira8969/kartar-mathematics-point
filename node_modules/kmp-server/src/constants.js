@@ -10,5 +10,5 @@ export const INSTITUTE_DETAILS = {
   contact: "7644847788",
   specialization: "Bihar Special 6th to 12th",
   ownerName: "Subodh Yadav",
-  ownerEmail: "sky@gmail.com"
+  ownerEmail: "skarya90069@gmail.com"
 };
