@@ -5,5 +5,5 @@ export const INSTITUTE = {
   specialization: "Bihar Board, Classes 6 to 12 Mathematics",
   tagline: "Bihar Special 6th to 12th",
   ownerName: "Subodh Yadav",
-  ownerEmail: "sky@gmail.com"
+  ownerEmail: "skarya90069@gmail.com"
 };
